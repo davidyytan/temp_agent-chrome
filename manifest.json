@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "Agent Chrome",
+  "short_name": "Agent Chrome",
+  "version": "0.1.0",
+  "description": "Lets your agent-core agent see and drive the tabs in its own tab group, with you able to watch and take over.",
+  "minimum_chrome_version": "120",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtGEHcItvs9s9muwi4DboplipJ8d61bmDsVSvOS7qYcYQETIRAWdHdKcHlZDvrpp5sxrXQVXlw32Vb2cJRkiqkQWt34kWEppOYN8VE8JkW8IPtX/OXLWiQrR6RvveTWyv3cFB/CEEdFylZCp42Lbx1rIPFBMp/qhmdkyDuQ+6tiwCh+qHUOg7HxK9BuiDLjq3iRYZ8o15jX+oGChA8Gu/f6jmD3YgDQaSQ2dBGtGNLsIOAULeEVhB9S5mYuxu0d/nW/geN++bIlyGaFhv+HbToYoosCT/WV8lUXucs+8g0g5swKz4YzNmHEZnQahyMws/OXfsTZI4n5sYog+xzZ+LYQIDAQAB",
+  "permissions": [
+    "alarms",
+    "debugger",
+    "scripting",
+    "storage",
+    "tabGroups",
+    "tabs"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Agent Chrome",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

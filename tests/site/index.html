@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Agent Test Page</title>
+<style>
+ body { font-family: sans-serif; margin: 24px; }
+ .tall p { margin: 0 0 18px; }
+ #coordbtn { position: absolute; left: 700px; top: 120px; width: 160px; height: 50px; background: #fc0; }
+</style></head>
+<body>
+<h1>Agent Test Page</h1>
+<p>This page exercises the <strong>Agent Chrome</strong> extension.</p>
+<nav><a href="page2.html">Go to page two</a> · <a href="https://example.org/">External link</a> · <a href="http://localhost:18799/leak.html">Leak test</a></nav>
+<form id="f" onsubmit="event.preventDefault(); submitIt();">
+  <fieldset><legend>Profile</legend>
+  <label for="name">Your name</label> <input id="name" name="name" value="old value"><br>
+  <label for="bio">Bio</label> <textarea id="bio"></textarea><br>
+  <label for="color">Favourite colour</label>
+  <select id="color"><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option></select><br>
+  <label><input type="checkbox" id="sub"> Subscribe</label><br>
+  <button type="submit">Submit</button>
+  </fieldset>
+</form>
+<div id="result">Not submitted</div>
+<div id="lastkey">No key</div>
+<div id="editor" contenteditable="true" aria-label="Notes editor">Initial notes</div>
+<button id="coordbtn" onclick="document.getElementById('coordresult').textContent='Coordinate click worked'">Click by coordinate</button>
+<div id="coordresult">Coordinate not clicked</div>
+<section aria-label="Extras">
+  <button onclick="alert('Hello from alert'); document.getElementById('dialogresult').textContent='after alert'">Show alert</button>
+  <button onclick="document.getElementById('dialogresult').textContent = confirm('Delete the item?') ? 'confirmed' : 'cancelled'">Delete item</button>
+  <button onclick="document.getElementById('dialogresult').textContent = 'prompt: ' + prompt('Your city?', 'Paris')">Ask city</button>
+  <button onclick="window.onbeforeunload = (e) => { e.preventDefault(); e.returnValue = ''; }; document.getElementById('dialogresult').textContent='leave warning armed'">Arm leave warning</button>
+  <div id="dialogresult">no dialog yet</div>
+  <a href="page2.html" target="_blank">Open page two in new tab</a>
+  <button onclick="window.open('page2.html', 'popupwin', 'width=500,height=400')">Open popup window</button>
+  <input type="file" id="fileinput" multiple style="display:none" onchange="showFiles('fileresult', this.files)">
+  <button onclick="document.getElementById('fileinput').click()">Upload files</button>
+  <div id="fileresult">no files</div>
+  <div id="dropzone" role="region" aria-label="Drop zone" style="border:2px dashed #888;padding:8px;width:200px"
+       ondragover="event.preventDefault()" ondrop="event.preventDefault(); showFiles('dropresult', event.dataTransfer.files)">Drop files here</div>
+  <div id="dropresult">nothing dropped</div>
+  <div style="display:flex;gap:40px;align-items:center;margin-top:12px">
+    <div id="dragsrc" role="button" aria-label="Drag card" draggable="true" ondragstart="event.dataTransfer.setData('text/plain','card-1')"
+         style="width:120px;height:40px;background:#cde">Drag card</div>
+    <div id="droptarget" role="region" aria-label="Drop target" ondragover="event.preventDefault()"
+         ondrop="event.preventDefault(); document.getElementById('dndresult').textContent='dropped: ' + event.dataTransfer.getData('text/plain')"
+         style="width:200px;height:80px;border:2px solid #888">Drop here</div>
+  </div>
+  <div id="dndresult">not dropped</div>
+  <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
+    <div id="track" style="position:relative;width:300px;height:20px;background:#eee">
+      <div id="thumb" role="slider" aria-label="Volume" aria-valuenow="0" tabindex="0" style="position:absolute;left:0;top:0;width:20px;height:20px;background:#36c;touch-action:none"></div>
+    </div>
+    <span role="img" aria-label="Loud">🔊</span>
+  </div>
+  <div id="sliderresult">volume 0</div>
+  <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
+    <input type="range" id="bright" aria-label="Brightness" min="0" max="100" value="0" style="width:300px"
+           oninput="document.getElementById('brightresult').textContent='brightness ' + this.value">
+    <span role="img" aria-label="Bright">☀️</span>
+  </div>
+  <div id="brightresult">brightness 0</div>
+</section>
+<script>
+ (() => {
+   const thumb = document.getElementById('thumb'), track = document.getElementById('track');
+   let dragging = false;
+   thumb.addEventListener('pointerdown', (e) => { dragging = true; thumb.setPointerCapture(e.pointerId); });
+   thumb.addEventListener('pointermove', (e) => {
+     if (!dragging) return;
+     const r = track.getBoundingClientRect();
+     const left = Math.max(0, Math.min(r.width - 20, e.clientX - r.left - 10));
+     thumb.style.left = left + 'px';
+     const v = Math.round(left / (r.width - 20) * 100);
+     thumb.setAttribute('aria-valuenow', v);
+     document.getElementById('sliderresult').textContent = 'volume ' + v + ' (moving)';
+   });
+   thumb.addEventListener('pointerup', () => { dragging = false; document.getElementById('sliderresult').textContent = 'volume ' + thumb.getAttribute('aria-valuenow'); });
+ })();
+</script>
+<script>
+ async function showFiles(id, files) {
+   const parts = [];
+   for (const f of files) parts.push(f.name + '(' + f.size + ' bytes, ' + (f.type || 'no type') + '): ' + (await f.text()).slice(0, 40));
+   document.getElementById(id).textContent = 'files: ' + parts.join(' | ');
+ }
+</script>
+<div class="tall" id="tall"></div>
+<script>
+ function submitIt() {
+   const r = document.getElementById('result');
+   r.textContent = 'Submitted: name=' + document.getElementById('name').value + ', color=' + document.getElementById('color').value + ', subscribed=' + document.getElementById('sub').checked + ', bio=' + document.getElementById('bio').value;
+ }
+ document.addEventListener('keydown', (e) => { document.getElementById('lastkey').textContent = 'Last key: ' + e.key + (e.metaKey ? ' +meta' : '') + (e.ctrlKey ? ' +ctrl' : ''); });
+ const tall = document.getElementById('tall');
+ for (let i = 1; i <= 80; i++) { const p = document.createElement('p'); p.textContent = 'Filler paragraph ' + i; tall.appendChild(p); }
+ console.log('page loaded', {ok: true});
+ console.error('deliberate test error');
+ fetch('/api/ping').then(r => r.json()).then(j => console.info('api says', j.pong));
+ setTimeout(() => { const d = document.createElement('div'); d.id = 'late'; d.textContent = 'Late content arrived'; document.body.appendChild(d); }, 1500);
+</script>
+</body></html>

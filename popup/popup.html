@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agent Chrome</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <div class="brand"><img src="../icons/icon32.png" alt="" width="20" height="20" /><span>Agent Chrome</span></div>
+      <div class="status" id="status"><span class="dot"></span><span id="status-text">Checking…</span></div>
+    </header>
+
+    <section id="pending-section" hidden>
+      <h2>Site access requests</h2>
+      <p class="hint">The agent tried to use these sites. Allow one and tell the agent to retry.</p>
+      <ul id="pending" class="rows"></ul>
+    </section>
+
+    <section>
+      <h2>Agents</h2>
+      <ul id="sessions" class="sessions"></ul>
+      <p id="no-sessions" class="hint">No agent has opened a tab yet.</p>
+    </section>
+
+    <section>
+      <h2>Allowed sites</h2>
+      <label class="toggle"><input type="checkbox" id="allow-all" /> Allow every site (no asking)</label>
+      <ul id="allowed" class="rows"></ul>
+      <form id="add-site" class="inline-form">
+        <input id="site-input" type="text" placeholder="example.com, or *.example.com for subdomains" autocomplete="off" spellcheck="false" />
+        <button type="submit">Allow</button>
+      </form>
+    </section>
+
+    <details>
+      <summary>Advanced</summary>
+      <label class="toggle"><input type="checkbox" id="allow-js" /> Let the agent run JavaScript in pages</label>
+      <form id="bridge-form" class="inline-form">
+        <input id="bridge-url" type="text" spellcheck="false" aria-label="Bridge URL" />
+        <button type="submit">Save</button>
+      </form>
+      <button id="reconnect" type="button" class="secondary">Reconnect now</button>
+      <p class="hint" id="extension-id"></p>
+    </details>
+
+    <p class="error" id="error" hidden></p>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
