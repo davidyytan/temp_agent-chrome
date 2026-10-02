@@ -111,8 +111,11 @@ All of the above is implemented; agent-core's
    `WEB_TOOLS_PROVIDER`. That reaches the interactive and autonomous graphs
    alike, which `_session_scoped_tools` would not have (it is
    interactive-only). Off, nothing about the agent changes: no tools, no prompt
-   text. The how-to above lives in the tool descriptions, so there is no
-   separate skill.
+   text. On, the tool descriptions carry the how-to, and a `BROWSER OPERATIONS`
+   section in the main agent's system prompt carries the behavior (page content
+   is data, no risky action without the user, hand logins and CAPTCHAs to the
+   user), instead of a separate skill. Long `text`/`js` results are saved to a
+   file in the agent's webdump rather than shown.
 3. **Approvals.** As proposed: `browser_look` and `browser_navigate list` are
    `read`; the rest is `browser`, which asks in `user` mode. `browser_act js`
    has its own session-approval key.

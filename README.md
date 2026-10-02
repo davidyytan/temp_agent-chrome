@@ -185,7 +185,7 @@ Every tab result includes `tab: {tab_id, url, title, status, active, current}`.
 | `select_option` | `ref` (a `<select>`), `values` (values or labels) | `selected` | act |
 | `handle_dialog` | `accept` (true = OK), `prompt_text?` | `answered` | act |
 | `upload_file` | `ref` (file input or drop zone), `files: [{name, mime?, data (base64)}]` (25 MB total) | `uploaded`, `via` (`file input`/`drop`) | act |
-| `evaluate` | `expression` (needs "run JavaScript" on) | `result` | act |
+| `evaluate` | `expression` (needs "run JavaScript" on), `max_chars?` (20000, up to 10 000 000) | `result`, `total_chars` | act |
 
 **Act methods** fail with `paused` while the user has control. An action
 already running when the user takes over, the bridge disconnects, or the tab
