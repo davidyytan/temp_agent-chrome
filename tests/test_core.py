@@ -30,7 +30,7 @@ async def main():
     call = bridge.call
     try:
         await asyncio.wait_for(bridge.connected.wait(), 40)
-        await sw_eval("chrome.storage.local.set({allowedSites: ['127.0.0.1']})")
+        await sw_eval("chrome.storage.local.set({allowAllSites: false, allowedSites: ['127.0.0.1']})")
 
         r = await call("tabs_create", {"url": f"{SITE}/index.html"})
         check("tabs_create", r["ok"] and r["result"]["tab"]["title"] == "Agent Test Page", r)

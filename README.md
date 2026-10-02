@@ -66,8 +66,9 @@ an agent that asks again gets a fresh window.
 
 ### Site access
 
-By default the agent has to ask before using each site. When it tries a site
-you haven't allowed:
+By default the agent may use every site (**Allow every site** is on), so it
+never stops to ask. Untick it in the popup to approve sites one by one. Then,
+when the agent tries a site you haven't allowed:
 
 1. Its tool call fails with "Site access needed".
 2. The extension icon shows a red count.
@@ -80,7 +81,7 @@ you haven't allowed:
   `mail.google.com`. You can also type `*.example.com` into the allowed-sites
   box.
 - **Share this tab** approves that tab's site.
-- **Allow every site** turns asking off.
+- **Allow every site** (the default) turns asking off.
 
 The agent never gets `chrome://` pages, the Chrome Web Store, or non-http(s)
 URLs. If a click takes it onto an unapproved site, it stops there and can only
@@ -259,8 +260,9 @@ Screenshots are viewport-only and sized in CSS pixels, then capped at
 - **Untrusted page text.** The agent acts in your real, logged-in browser, and
   anything a page says flows into the model's context. A page can try to talk
   the agent into doing things. The site allowlist, the agent-only tab group,
-  and agent-core's approval prompts for act tools are the guard rails. Keep
-  "Allow every site" off unless you trust what the agent will browse.
+  and agent-core's approval prompts for act tools are the guard rails.
+  "Allow every site" is on by default; untick it to approve each site the
+  agent may use.
 - **Connections.** The bridge listens on loopback only. The extension only
   answers a bridge whose `/health` identifies itself, and the bridge only
   accepts this extension's origin. A malicious program already running as your

@@ -18,7 +18,7 @@ async def main():
     call = bridge.call
     try:
         await asyncio.wait_for(bridge.connected.wait(), 40)
-        await sw_eval("chrome.storage.local.set({allowedSites: ['127.0.0.1']})")
+        await sw_eval("chrome.storage.local.set({allowAllSites: false, allowedSites: ['127.0.0.1']})")
         await call("tabs_create", {"url": f"{SITE}/index.html"})
         await call("scroll", {"direction": "down", "amount": 4})
         snap = (await call("read_page"))["result"]["text"]

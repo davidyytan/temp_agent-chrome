@@ -340,7 +340,8 @@ pages, and the Chrome Web Store.
    A rule `*.example.com` also covers every subdomain. That is never implied,
    so allowing `www.google.com` does not grant `mail.google.com`.
 3. **Share this tab** approves exactly that tab's site.
-4. **Allow every site** turns asking off.
+4. **Allow every site** turns asking off. It is on by default, so the agent
+   never stops for a site; untick it to approve sites one by one.
 
 The bridge URL can only point at this machine (`127.0.0.1`, `localhost` or
 `[::1]`).

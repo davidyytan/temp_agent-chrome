@@ -34,7 +34,7 @@ async def main():
     call = bridge.call
     try:
         await asyncio.wait_for(bridge.connected.wait(), 40)
-        await sw_eval("chrome.storage.local.set({allowedSites: ['127.0.0.1']})")
+        await sw_eval("chrome.storage.local.set({allowAllSites: false, allowedSites: ['127.0.0.1']})")
 
         # Concurrent first tabs share one window and group.
         a, b = await asyncio.gather(call("tabs_create", {"url": f"{SITE}/index.html"}), call("tabs_create", {"url": f"{SITE}/page2.html"}))
@@ -122,7 +122,7 @@ async def main():
         await reload_extension()
         check("reconnected after extension reload", await wait_hello(bridge, before))
         await asyncio.sleep(1)
-        await sw_eval("chrome.storage.local.set({allowedSites: ['127.0.0.1']})")
+        await sw_eval("chrome.storage.local.set({allowAllSites: false, allowedSites: ['127.0.0.1']})")
         title = await sw_eval(f"chrome.tabs.get({old_tab}).then(t => chrome.tabGroups.get(t.groupId)).then(g => g.title + ':' + g.color)")
         stale = await page_eval("index.html", "document.querySelectorAll('agent-chrome-overlay').length")
         check("old group released and stale overlay removed", title == "✓ Test agent:grey" and stale == 0, [title, stale])

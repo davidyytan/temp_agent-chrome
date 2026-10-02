@@ -19,7 +19,7 @@ async def main():
     call = bridge.call
     try:
         await asyncio.wait_for(bridge.connected.wait(), 40)
-        await sw_eval("chrome.storage.local.set({allowedSites: ['127.0.0.1']})")
+        await sw_eval("chrome.storage.local.set({allowAllSites: false, allowedSites: ['127.0.0.1']})")
         r = await call("tabs_create", {"url": f"{SITE}/index.html"}); tab1 = r["result"]["tab"]["tab_id"]
         snap = (await call("read_page"))["result"]["text"]
         refs = {k: ref_for(snap, "button", k) for k in ["Show alert", "Delete item", "Ask city", "Arm leave warning", "Open popup window", "Upload files"]}
