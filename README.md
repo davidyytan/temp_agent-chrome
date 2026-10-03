@@ -23,7 +23,7 @@ The extension ID is always `cbclhcbmllbpkhmpcpgiccknlodiljpe` (fixed by the
 `key` in `manifest.json`); the bridge only accepts that ID. After editing the
 code, press the reload icon on the extension's card.
 
-Then, in agent-cli, run `/browser on`. It starts the bridge (also `agent
+Then, in agent-cli, run `/settings tools browser on`. It starts the bridge (also `agent
 browser start`, or `python -m agent_core.browser start` without the CLI) and
 gives that session the browser tools. The popup's status turns to connected
 within a few seconds. See agent-core

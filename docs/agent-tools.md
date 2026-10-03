@@ -103,7 +103,7 @@ All of the above is implemented; agent-core's
    `/health` and `/extension`, checks the extension's origin, and takes agent
    calls on `POST /v1/call` with a bearer token (requests carrying an `Origin`
    header are refused, so web pages cannot use it). Events are queued per
-   session and returned with that session's next call. `/browser on` in
+   session and returned with that session's next call. `/settings tools browser on` in
    agent-cli, `agent browser start`, or `python -m agent_core.browser start`
    starts it.
 2. **The three tools** (`agent_core/tools/browser.py`). They join the static
@@ -126,7 +126,7 @@ All of the above is implemented; agent-core's
    messages are translated to tool terms.
 6. **Sessions.** One extension session per agent, named by its uuid (session,
    run or sub-agent), so each gets its own window. Its tabs are released when
-   the run ends, the CLI exits, or on `/browser off`.
+   the run ends, the CLI exits, or on `/settings tools browser off`.
 7. **Docker.** The client is plain HTTP. agent-cli forwards
    `AGENT_BROWSER_ENABLED`, `AGENT_BROWSER_TOKEN` and `AGENT_BROWSER_BRIDGE_URL`
    to runs; sub-agents inherit them; a loopback bridge URL is redirected to
