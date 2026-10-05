@@ -16,7 +16,7 @@ running" and the extension retries every few seconds.
 ## Install
 
 1. Open `chrome://extensions` and turn on **Developer mode** (top right).
-2. Click **Load unpacked** and pick this folder (`agent-chrome-extension/`).
+2. Click **Load unpacked** and pick this folder (`agent-chrome/`).
 3. Pin the extension (puzzle icon → pin) so its status and requests stay in view.
 
 The extension ID is always `cbclhcbmllbpkhmpcpgiccknlodiljpe` (fixed by the

@@ -7,7 +7,7 @@ End-to-end suites that drive the real extension:
 - **Pages:** the local test site in `site/`.
 
 ```sh
-# from agent-chrome-extension/tests (uses agent-core's venv for `websockets`)
+# from agent-chrome/tests (uses agent-core's venv for `websockets`)
 uv run --project ../../agent-core python run_all.py            # headless
 uv run --project ../../agent-core python run_all.py --headed   # visible window
 ```
