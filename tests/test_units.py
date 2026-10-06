@@ -36,3 +36,4 @@ for key, want in EXPECTED.items():
     failed |= not ok
     print(("PASS " if ok else "FAIL ") + key + ("" if ok else f"  -- got {got[key]}"))
 print("\nFAILURES:", "some" if failed else "none")
+sys.exit(1 if failed else 0)

@@ -13,6 +13,55 @@ at `ws://127.0.0.1:18765/extension`. The agent talks to the bridge, never to
 Chrome directly. Until the bridge is running, the popup shows "Bridge not
 running" and the extension retries every few seconds.
 
+## Quick start and requirements
+
+- **Chrome 120+**; this is an unpacked Manifest V3 extension, not a web server.
+- No `npm install`, `uv sync`, Docker build, or frontend bundle is needed to
+  load the extension itself. Python/Node are only needed for development tests.
+- Install/configure the sibling [agent-cli](../agent-cli/README.md) and
+  [agent-core](../agent-core/README.md) to use the local browser bridge.
+
+1. Follow **Install** below and pin the popup.
+2. In an agent session, run `/settings tools browser on`, or use
+   `agent browser start` to start the bridge. Starting the bridge alone does
+   not enable browser tools for every agent session.
+3. Open the popup, confirm the bridge is connected, and configure the site
+   permissions before asking the agent to browse.
+4. Use **Take over** or **Pause** whenever you want control back. Resume only
+   when you are ready for the agent to act again.
+
+Keep the bridge local: the default is
+`ws://127.0.0.1:18765/extension`, and extension settings accept only loopback
+bridge addresses. Broad Chrome host/debugger permissions make this a trusted
+local automation component; review which sites you allow and avoid granting
+unnecessary access to sensitive accounts.
+
+### Troubleshooting
+
+| Symptom | What to check |
+|---|---|
+| Bridge not running | Start the agent-core bridge, check port 18765, and confirm the popup uses the same loopback address. |
+| Connected but no browser tools | Enable `/settings tools browser on` in the current agent session. |
+| Navigation/action refused | Check allowed sites, pause/takeover state, and tab ownership. Chrome internal pages and protected browser pages are not ordinary automation targets. |
+| Changes do not appear | Reload the extension in `chrome://extensions`; active agent tabs will be released. |
+| Extension fails to load | Select the directory containing `manifest.json`, use Chrome 120+, and inspect the extension card's Errors link. |
+
+### Development and tests
+
+The pure logic checks need Python 3 and Node on `PATH`, but no browser or
+running bridge:
+
+```bash
+# From agent-chrome/
+python3 -B tests/test_units.py
+```
+
+Both expectation failures and Node execution errors return a nonzero exit
+status. Full end-to-end tests need Chrome for Testing, the sibling core's
+Python dependencies, and free test ports; see
+[tests/README.md](tests/README.md). They launch a browser and mock local
+services, so do not run them against your active bridge.
+
 ## Install
 
 1. Open `chrome://extensions` and turn on **Developer mode** (top right).

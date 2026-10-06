@@ -1,5 +1,18 @@
 # Extension tests
 
+## Fast unit checks (no browser or bridge)
+
+From the extension root, with Python 3 and Node on `PATH`:
+
+```sh
+python3 -B tests/test_units.py
+```
+
+No third-party Python packages are required for this check. A failed
+expectation or Node execution returns a nonzero exit status for CI.
+
+## End-to-end tests
+
 End-to-end suites that drive the real extension:
 - **Browser:** Chrome for Testing with the unpacked extension loaded, in a
   throwaway profile.
@@ -23,7 +36,20 @@ uv run --project ../../agent-core python run_all.py --headed   # visible window
 - 18799: the test site
 - 9333: DevTools, used by the harness to inspect pages and the service worker
 
-Stop a real bridge before running.
+Stop a real bridge before running. On Linux or Windows, or when using a
+browser outside the macOS Playwright cache, set the executable explicitly:
+
+```sh
+# From agent-chrome/tests; use your installed Chrome for Testing executable.
+CHROME_FOR_TESTING=/absolute/path/to/chrome \
+  uv run --project ../../agent-core python run_all.py
+```
+
+`CHROME_FOR_TESTING` is a path to the executable, not the browser's directory.
+The Python environment needs `websockets`; Node must also be on `PATH` for
+the unit suite. The harness creates temporary output and launches local
+services and a throwaway browser profile; these are integration tests, not
+read-only checks. Do not expose the test bridge to other machines.
 
 ## Suites
 
