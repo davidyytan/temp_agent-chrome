@@ -97,6 +97,9 @@ Code: [`lib/sessions.js`](../lib/sessions.js).
 - **Ending.** `session_end` (or **End** in the popup) detaches from the
   session's tabs and greys out the group (`✓ <label>`). With `close_tabs`, it
   closes them instead.
+- **Closing the agent's window** (or taking every tab out of its group) drops
+  the session from the popup, unless it is paused: a paused session keeps its
+  Resume button, with no tabs. The agent's next request starts a fresh window.
 
 Background tabs and minimized windows still work: screenshots, reads, clicks
 and typing were all tested on a minimized window. The agent never needs to
